@@ -1,17 +1,20 @@
 NAME = ocelotuproar/docker-outdated
+INSTANCE = docker-outdated
 
 default: build
 
 build:
-		docker build -t $(NAME) .
+	docker build -t $(NAME) .
 
-push:
-		docker push $(NAME)
+copy:
+	docker create --name $(INSTANCE) $(NAME)
+	docker cp $(INSTANCE):/go/bin/app $(shell pwd)/build
+	docker rm $(INSTANCE)
 
 debug:
-		docker run --rm -it $(NAME) /bin/bash
+	docker run --rm -it --name $(INSTANCE) $(NAME) /bin/bash
 
 run:
-		docker run --rm $(NAME)
+	docker run --rm --name $(INSTANCE) $(NAME)
 
 release: build push
