@@ -1,6 +1,8 @@
 NAME = ocelotuproar/docker-outdated
 INSTANCE = docker-outdated
 
+.PHONY: default build copy debug run release
+
 default: build
 
 build:
