@@ -1,23 +1,20 @@
 package main
 
 import (
-    "fmt"
-    "io/ioutil"
-    "net/http"
-    "os"
+  "github.com/samalba/dockerclient"
+  "log"
 )
 
 func main() {
-    resp, err := http.Get("https://google.com")
-    check(err)
-    body, err := ioutil.ReadAll(resp.Body)
-    check(err)
-    fmt.Println(len(body))
+  docker, _ := dockerclient.NewDockerClient("unix:///var/run/docker.sock", nil)
+
+  containers, err := docker.ListContainers(false, false, "")
+  if err != nil {
+    log.Fatal(err)
+  }
+  for _, c := range containers {
+    log.Println(c.Id, c.Names)
+  }
+
 }
 
-func check(err error) {
-    if err != nil {
-        fmt.Println(err)
-        os.Exit(1)
-    }
-}
