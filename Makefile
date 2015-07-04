@@ -17,6 +17,6 @@ debug:
 	docker run --rm -it --name $(INSTANCE) $(NAME) /bin/bash
 
 run:
-	docker run --rm --name $(INSTANCE) $(NAME)
+	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock --name $(INSTANCE) $(NAME)
 
 release: build push
