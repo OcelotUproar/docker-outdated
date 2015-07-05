@@ -1,7 +1,7 @@
 NAME = ocelotuproar/docker-outdated
 INSTANCE = docker-outdated
 
-.PHONY: default build copy debug run release
+.PHONY: default build copy debug run release dev
 
 default: build
 
@@ -18,5 +18,8 @@ debug:
 
 run:
 	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock --name $(INSTANCE) $(NAME)
+
+dev:
+	docker run -it --rm -v $(shell pwd)/vendor/github.com/:/go/src/github.com/ -v $(shell pwd):/go/src/github.com/$(NAME) golang
 
 release: build push
